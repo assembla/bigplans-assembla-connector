@@ -1,0 +1,13 @@
+{
+  "auth": {
+    "accessToken": "text",
+    "refreshToken": "text",
+    "expiresIn": "text"
+  },
+  "container": {
+    "urlName": "text",
+    "urlPattern": "https://www.assembla.com/spaces/%urlName"
+  },
+  "importGoalsInfo": "We’ll import open goals from the current milestone if found, or all open goals otherwise.",
+  "userInvitationInfo": "We’ll invite users that have an email published on their Assembla account."
+}

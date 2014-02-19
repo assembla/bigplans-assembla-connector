@@ -1,0 +1,37 @@
+{
+  "name": "pbc-assembla",
+  "version": "0.0.1",
+  "description": "PigPlans.io connector for Assembla.com",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "keywords": [
+    "bigplans",
+    "connector",
+    "assembla"
+  ],
+  "author": "Assembla Inc.",
+  "license": "BSD",
+
+  "dependencies": {
+    "async": "0.2.9",
+    "request": "2.27.0",
+    "debug": "0.7.3",
+    "underscore": "~1.5",
+    "string": "1.6.0"
+  },
+
+  "devDependencies": {
+    "jshint": "2.1.11",
+    "grunt": "0.4.1",
+    "grunt-cli": "0.1.11",
+    "grunt-contrib-jshint": "0.6.4",
+    "jasmine-node": "1.11.0",
+    "sinon": "1.8.1",
+    "jasmine-sinon": "0.3.1"
+  }
+}
