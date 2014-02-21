@@ -1,8 +1,6 @@
 {
   "auth": {
-    "accessToken": "text",
-    "refreshToken": "text",
-    "expiresIn": "text"
+    "accessToken": "text"
   },
   "container": {
     "urlName": "text",
