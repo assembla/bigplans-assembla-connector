@@ -1,11 +1,8 @@
 {
   "name": "pbc-assembla",
-  "version": "0.0.1",
-  "description": "PigPlans.io connector for Assembla.com",
+  "version": "0.1.0",
+  "description": "Assembla connector for BigPlans.io",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "grunt test"
   },
@@ -14,8 +11,12 @@
     "connector",
     "assembla"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Assembla/bigplans-assembla-connector"
+  },
   "author": "Assembla Inc.",
-  "license": "BSD",
+  "license": "MIT",
 
   "dependencies": {
     "async": "0.2.9",
