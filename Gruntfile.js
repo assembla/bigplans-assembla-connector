@@ -4,10 +4,10 @@ module.exports = function(grunt) {
   grunt.initConfig({
     jshint: {
       files: [
+        'index.js',
         'Gruntfile.js',
         'package.json',
         'requirements.json',
-        'token.json',
         '.jshintrc',
         'lib/**/*.js',
         'test/**/*.js'
