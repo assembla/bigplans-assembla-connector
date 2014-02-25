@@ -235,6 +235,8 @@ describe('AssemblaConnector', function() {
 
 
     describe('#getGoals(callback)', function() {
+      var paginationParams;
+
       beforeEach(function() {
         apiData.tickets = [{
           number: 1,
@@ -249,6 +251,8 @@ describe('AssemblaConnector', function() {
           state: 0,
           status: 'Fixed'
         }];
+
+        paginationParams = {'per_page': 100};
 
         stubHttpReponseFor('get', ticketsApiUrl + '/statuses.json').andRespondWith(200, apiData.ticketStatuses);
       });
@@ -266,7 +270,7 @@ describe('AssemblaConnector', function() {
           currentMilestone = apiData.milestones[0];
 
           stubHttpReponseFor('get', spaceApiUrl + '/milestones/all.json').andRespondWith(200, apiData.milestones);
-          stubHttpReponseFor('get', ticketsApiUrl + '/milestone/' + currentMilestone.id + '.json').andRespondWith(200, apiData.tickets);
+          stubHttpReponseFor('get', ticketsApiUrl + '/milestone/' + currentMilestone.id + '.json', paginationParams).andRespondWith(200, apiData.tickets);
         });
 
         it('fetches the tickets by that milestone', function(done) {
@@ -288,7 +292,7 @@ describe('AssemblaConnector', function() {
           }];
 
           stubHttpReponseFor('get', spaceApiUrl + '/milestones/all.json').andRespondWith(200, apiData.milestones);
-          stubHttpReponseFor('get', ticketsApiUrl + '.json').andRespondWith(200, apiData.tickets);
+          stubHttpReponseFor('get', ticketsApiUrl + '.json', paginationParams).andRespondWith(200, apiData.tickets);
         });
 
         it('fetches all the tickets', function(done) {
@@ -303,7 +307,7 @@ describe('AssemblaConnector', function() {
 
       it('transforms and packs the received tickets into a success JSend response and passes it to the callback', function(done) {
         stubHttpReponseFor('get', spaceApiUrl + '/milestones/all.json').andRespondWith(200, []);
-        stubHttpReponseFor('get', ticketsApiUrl + '.json').andRespondWith(200, apiData.tickets);
+        stubHttpReponseFor('get', ticketsApiUrl + '.json', paginationParams).andRespondWith(200, apiData.tickets);
 
         connector.getGoals(params, function(jsendResponse) {
           expect(request.get).toHaveBeenCalledThrice();
@@ -495,7 +499,7 @@ describe('AssemblaConnector', function() {
   beforeEach(function() { sandbox = sinon.sandbox.create() });
   afterEach(function() { sandbox.restore(); });
 
-  function stubHttpReponseFor(method, url, requestBody) {
+  function stubHttpReponseFor(method, url, params) {
     return {
       andRespondWith: function(statusCode, json) {
         var options = {
@@ -504,7 +508,13 @@ describe('AssemblaConnector', function() {
           json    : true
         };
 
-        if (requestBody) options.body = JSON.stringify(requestBody);
+        if (params) {
+          if (method === 'get') {
+            options.qs = params;
+          } else {
+            options.body = JSON.stringify(params);
+          }
+        }
 
         var res = {
           statusCode : statusCode,
