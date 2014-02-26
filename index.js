@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports.API_URL     = 'https://api.assembla.com/v1';
+module.exports.TICKET_LIST_PAGE_SIZE = 100;
 
 module.exports.getGoal     = require('./lib/handlers/getGoal');
 module.exports.createGoal  = require('./lib/handlers/createGoal');

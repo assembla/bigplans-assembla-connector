@@ -254,7 +254,10 @@ describe('AssemblaConnector', function() {
           status: 'Fixed'
         }];
 
-        paginationParams = {'per_page': 100};
+        paginationParams = {
+          'page': 1,
+          'per_page': connector.TICKET_LIST_PAGE_SIZE
+        };
 
         stubHttpReponseFor('get', ticketsApiUrl + '/statuses.json').andRespondWith(200, apiData.ticketStatuses);
       });
@@ -301,6 +304,77 @@ describe('AssemblaConnector', function() {
           connector.getGoals(params, function() {
             expect(request.get).toHaveBeenCalledThrice();
             // if the right requests are not made, the flow never gets here
+            done();
+          });
+        });
+      });
+
+
+      describe('pagination', function() {
+        var originalConnectorPageSize, page1, page2, page3;
+
+        beforeEach(function() {
+          originalConnectorPageSize = connector.TICKET_LIST_PAGE_SIZE;
+        });
+
+        afterEach(function() {
+          connector.TICKET_LIST_PAGE_SIZE = originalConnectorPageSize;
+        });
+
+        beforeEach(function() {
+          stubHttpReponseFor('get', spaceApiUrl + '/milestones/all.json').andRespondWith(200, []);
+
+          paginationParams['per_page'] =
+          connector.TICKET_LIST_PAGE_SIZE = 2;
+
+          page1 = [{
+            number: 1,
+            summary: 'Summary 1',
+            description: 'Description 1',
+            state: 1,
+            status: 'In-Progress'
+          }, {
+            number: 2,
+            summary: 'Summary 2',
+            description: 'Description 2',
+            state: 1,
+            status: 'Fixed'
+          }];
+          paginationParams.page = 1;
+          stubHttpReponseFor('get', ticketsApiUrl + '.json', paginationParams).andRespondWith(200, page1);
+
+          page2 = [{
+            number: 3,
+            summary: 'Summary 3',
+            description: 'Description 3',
+            state: 1,
+            status: 'In-Progress'
+          }, {
+            number: 4,
+            summary: 'Summary 4',
+            description: 'Description 4',
+            state: 1,
+            status: 'Fixed'
+          }];
+          paginationParams.page = 2;
+          stubHttpReponseFor('get', ticketsApiUrl + '.json', paginationParams).andRespondWith(200, page2);
+
+          page3 = [{
+            number: 5,
+            summary: 'Summary 5',
+            description: 'Description 5',
+            state: 1,
+            status: 'Fixed'
+          }];
+          paginationParams.page = 3;
+          stubHttpReponseFor('get', ticketsApiUrl + '.json', paginationParams).andRespondWith(200, page3);
+        });
+
+        it('fetches all the tickets page-by-page', function(done) {
+          connector.getGoals(params, function(jsendResponse) {
+            expect(jsendResponse.data.goals.length).toBe(page1.length + page2.length + page3.length);
+            expect(request.get.callCount).toBe(5); // 1 statuses + 1  milestones + 3 pages of tickets
+
             done();
           });
         });
