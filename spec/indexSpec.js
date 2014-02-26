@@ -5,8 +5,6 @@ var sinon = require('sinon');
 require('jasmine-sinon');
 
 var connector = require('..');
-var transform = require('../lib/transform');
-var http = require('../lib/http');
 
 
 describe('AssemblaConnector', function() {
@@ -496,7 +494,7 @@ describe('AssemblaConnector', function() {
 
   var sandbox;
 
-  beforeEach(function() { sandbox = sinon.sandbox.create() });
+  beforeEach(function() { sandbox = sinon.sandbox.create(); });
   afterEach(function() { sandbox.restore(); });
 
   function stubHttpReponseFor(method, url, params) {

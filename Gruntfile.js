@@ -10,7 +10,7 @@ module.exports = function(grunt) {
         'requirements.json',
         '.jshintrc',
         'lib/**/*.js',
-        'test/**/*.js'
+        'spec/**/*.js'
       ],
       options: {
         jshintrc: '.jshintrc'
