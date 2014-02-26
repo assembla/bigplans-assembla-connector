@@ -5,6 +5,7 @@ var sinon = require('sinon');
 require('jasmine-sinon');
 
 var connector = require('..');
+var helpers = require('./helpers');
 
 
 describe('AssemblaConnector', function() {
@@ -20,8 +21,11 @@ describe('AssemblaConnector', function() {
 
   var spaceApiUrl = connector.API_URL + '/spaces/' + params.urlName;
   var apiData = {};
+  var sandbox, stubHttpReponseFor;
 
   beforeEach(function() {
+    sandbox = sinon.sandbox.create();
+    stubHttpReponseFor = helpers.stubHttpReponseFor(sandbox, expectedHeaders);
     spyOn(console, 'error');
   });
 
@@ -492,39 +496,6 @@ describe('AssemblaConnector', function() {
     });
   });
 
-  var sandbox;
-
-  beforeEach(function() { sandbox = sinon.sandbox.create(); });
   afterEach(function() { sandbox.restore(); });
-
-  function stubHttpReponseFor(method, url, params) {
-    return {
-      andRespondWith: function(statusCode, json) {
-        var options = {
-          uri     : url,
-          headers : expectedHeaders,
-          json    : true
-        };
-
-        if (params) {
-          if (method === 'get') {
-            options.qs = params;
-          } else {
-            options.body = JSON.stringify(params);
-          }
-        }
-
-        var res = {
-          statusCode : statusCode,
-          request    : { href: url }
-        };
-
-        var alreadyStubbed = 'spyCall' in request[method];
-        var stub = alreadyStubbed ? request[method] : sandbox.stub(request, method);
-
-        stub.withArgs(options).yields(null, res, json);
-      }
-    };
-  }
 
 });
