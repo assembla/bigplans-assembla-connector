@@ -1,6 +1,6 @@
 {
   "name": "bigplans-assembla-connector",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Assembla connector for BigPlans.io",
   "author": "Assembla Inc.",
   "license": "MIT",
@@ -23,11 +23,11 @@
   },
 
   "dependencies": {
-    "async": "0.2.9",
-    "request": "2.27.0",
-    "debug": "0.7.3",
-    "underscore": "~1.5",
-    "string": "1.6.0"
+    "async": "0.7.0",
+    "request": "2.34.0",
+    "debug": "0.8.0",
+    "underscore": "1.6.0",
+    "string": "1.8.0"
   },
 
   "devDependencies": {
